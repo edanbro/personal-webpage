@@ -51,19 +51,37 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Create 404 fallback for client-side routing
+      - name: Prepare publish directory and 404 fallback
         run: |
-          # The build outputs to dist/browser/browser - create 404 there
-          PUBLISH_DIR="dist/browser/browser"
-          echo "Creating 404.html from index.html in $PUBLISH_DIR"
-          cp "$PUBLISH_DIR/index.html" "$PUBLISH_DIR/404.html" || true
+          set -e
+          # Try known build output locations and copy to a clean publish/ dir
+          rm -rf publish || true
+          mkdir publish
+
+          if [ -f dist/index.html ]; then
+            echo "Using dist/"
+            cp -r dist/* publish/
+          elif [ -f dist/browser/index.html ]; then
+            echo "Using dist/browser/"
+            cp -r dist/browser/* publish/
+          elif [ -f dist/browser/browser/index.html ]; then
+            echo "Using dist/browser/browser/"
+            cp -r dist/browser/browser/* publish/
+          else
+            echo "No index.html found in expected locations; listing dist for debugging" && ls -R dist || true
+            exit 0
+          fi
+
+          # Ensure 404.html exists for client-side routing
+          if [ -f publish/index.html ]; then
+            cp publish/index.html publish/404.html || true
+          fi
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          # Publish the inner browser folder produced by the Angular build
-          publish_dir: ./dist/browser/browser
+          publish_dir: ./publish
           publish_branch: gh-pages
           keep_files: false
           commit_message: "chore: deploy site from GitHub Actions"
