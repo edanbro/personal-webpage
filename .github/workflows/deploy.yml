@@ -29,11 +29,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build Angular app into ./dist
+      - name: Build Angular app into ./dist/browser
         env:
           REPO_NAME: ${{ github.event.repository.name }}
         run: |
-          npm run build -- --configuration production --output-path=dist --base-href "/${REPO_NAME}/"
+          # Ensure the Angular build writes the browser output directly into dist/browser
+          # Use npx to call the Angular CLI and use `--configuration=production` (explicit '=')
+          npx ng build --configuration=production --output-path=dist/browser --base-href "/${REPO_NAME}/"
 
       - name: Show dist contents (for debugging)
         run: |
@@ -51,7 +53,9 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          # The Angular CLI (v13+) produces a `browser` folder under the given output path
+          # so publish that folder's contents as the site root so index.html is at branch root
+          publish_dir: ./dist/browser
           publish_branch: gh-pages
           keep_files: false
           commit_message: "chore: deploy site from GitHub Actions"
