@@ -43,19 +43,8 @@ jobs:
           ls -la dist || true
           echo "Listing dist/browser contents (if present):"
           ls -la dist/browser || true
-          echo "---- index.html head (dist/browser/index.html) ----"
-          head -n 60 dist/browser/index.html || true
-
-      - name: Flatten nested browser folder (if any)
-        run: |
-          # If the build produced dist/browser/browser, move its contents up
-          if [ -d "dist/browser/browser" ]; then
-            echo "Flattening dist/browser/browser -> dist/browser"
-            mv dist/browser/browser/* dist/browser/ || true
-            rm -rf dist/browser/browser || true
-          else
-            echo "No nested browser folder found"
-          fi
+          echo "---- index.html head (dist/browser/browser/index.html if present) ----"
+          head -n 60 dist/browser/browser/index.html || true
 
       - name: Configure git identity for gh-pages commit
         run: |
@@ -64,12 +53,8 @@ jobs:
 
       - name: Create 404 fallback for client-side routing
         run: |
-          # If the build produced an inner folder, adjust the path accordingly
-          if [ -d "dist/browser/browser" ]; then
-            PUBLISH_DIR="dist/browser/browser"
-          else
-            PUBLISH_DIR="dist/browser"
-          fi
+          # The build outputs to dist/browser/browser - create 404 there
+          PUBLISH_DIR="dist/browser/browser"
           echo "Creating 404.html from index.html in $PUBLISH_DIR"
           cp "$PUBLISH_DIR/index.html" "$PUBLISH_DIR/404.html" || true
 
@@ -77,8 +62,8 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          # Publish the flattened dist/browser directory (workflow flattens any nested folder)
-          publish_dir: ./dist/browser
+          # Publish the inner browser folder produced by the Angular build
+          publish_dir: ./dist/browser/browser
           publish_branch: gh-pages
           keep_files: false
           commit_message: "chore: deploy site from GitHub Actions"
