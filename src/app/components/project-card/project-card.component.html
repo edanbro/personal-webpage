@@ -1,0 +1,16 @@
+<article class="p-4 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-lg shadow-sm flex flex-col justify-between">
+  <div>
+    <h3 class="text-lg font-semibold">{{ project.title }}</h3>
+    <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">{{ project.description }}</p>
+    <div class="mt-3 text-xs text-gray-500 dark:text-gray-400">
+      <span *ngFor="let t of (project.tech || []); let i = index">
+        {{ t }}<span *ngIf="i < (project.tech || []).length - 1"> · </span>
+      </span>
+    </div>
+  </div>
+
+  <div class="mt-4 flex space-x-2">
+    <a *ngIf="project.link" [href]="project.link" target="_blank" class="text-sm px-3 py-1 border rounded">Live</a>
+    <a *ngIf="project.repo" [href]="project.repo" target="_blank" class="text-sm px-3 py-1 border rounded">Code</a>
+  </div>
+</article>

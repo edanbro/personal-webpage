@@ -1,0 +1,17 @@
+<article class="p-4 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-lg shadow-sm">
+  <div class="flex items-start justify-between">
+    <div>
+      <div class="text-lg font-semibold">{{ experience.role }}</div>
+      <div class="text-sm text-gray-500 dark:text-gray-400">{{ experience.company }} · <span class="italic text-sm">{{ experience.location }}</span></div>
+    </div>
+    <div class="text-sm text-gray-500 dark:text-gray-400">
+      {{ experience.start }} — {{ experience.end || 'Present' }}
+    </div>
+  </div>
+
+  <p class="mt-3 text-gray-700 dark:text-gray-300" *ngIf="experience.summary">{{ experience.summary }}</p>
+
+  <ul class="mt-3 list-disc list-inside text-sm text-gray-700 dark:text-gray-300" *ngIf="experience.bullets?.length">
+    <li *ngFor="let b of experience.bullets">{{ b }}</li>
+  </ul>
+</article>
