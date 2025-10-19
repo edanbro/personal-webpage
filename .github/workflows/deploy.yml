@@ -41,8 +41,10 @@ jobs:
         run: |
           echo "Listing dist/ contents:"
           ls -la dist || true
-          echo "Top-level dist files:"
-          ls -la dist | sed -n '1,200p' || true
+          echo "Listing dist/browser contents (if present):"
+          ls -la dist/browser || true
+          echo "---- index.html head (dist/browser/index.html) ----"
+          head -n 60 dist/browser/index.html || true
 
       - name: Configure git identity for gh-pages commit
         run: |
