@@ -22,7 +22,7 @@ export class ProjectsComponent {
       title: 'Personal website',
       description: 'This site! — an Angular + Tailwind personal page, deployed to GitHub Pages.',
       tech: ['Angular', 'Tailwind', 'GitHub Pages'],
-      link: 'https://github.com/edanbro/personal-webpage'
+      link: 'https://edanbro.github.io/personal-webpage/'
     },
     {
       title: 'Muscles Made Easy',
