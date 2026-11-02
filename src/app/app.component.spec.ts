@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { AppComponent } from './app.component';
+import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './pages/home/home.component';
 import { routes } from './app.routes';
 
@@ -23,6 +24,29 @@ describe('AppComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelectorAll('header nav a[href="#projects"]').length).toBeGreaterThan(0);
     expect(compiled.querySelector('footer')?.textContent).toContain('Eduard Andrei Broasca');
+  });
+});
+
+describe('HeaderComponent', () => {
+  it('should close the mobile menu without cancelling the link navigation', async () => {
+    await TestBed.configureTestingModule({ imports: [HeaderComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(HeaderComponent);
+    fixture.componentInstance.menuOpen = true;
+    fixture.detectChanges();
+
+    // Record whether the app cancelled the click, then stop the navigation so the test page stays put.
+    let cancelledByApp: boolean | undefined;
+    const recordAndStop = (event: Event) => {
+      cancelledByApp = event.defaultPrevented;
+      event.preventDefault();
+    };
+    document.addEventListener('click', recordAndStop);
+    const link = (fixture.nativeElement as HTMLElement).querySelector<HTMLAnchorElement>('#mobile-menu a[href="#projects"]')!;
+    link.click();
+    document.removeEventListener('click', recordAndStop);
+
+    expect(cancelledByApp).toBeFalse();
+    expect(fixture.componentInstance.menuOpen).toBeFalse();
   });
 });
 

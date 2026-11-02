@@ -43,6 +43,12 @@ export class HeaderComponent {
     this.activeSection = atBottom ? this.links[this.links.length - 1].id : current;
   }
 
+  // Template click handlers must call these rather than assign `menuOpen = false` inline:
+  // Angular cancels the click when a handler evaluates to false, which stops links navigating.
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;
+  }
+
   @HostListener('document:keydown.escape')
   closeMenu(): void {
     this.menuOpen = false;

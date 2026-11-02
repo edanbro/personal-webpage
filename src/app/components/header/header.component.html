@@ -1,9 +1,9 @@
-<header class="border-b transition-colors duration-300"
+<header class="relative border-b transition-colors duration-300"
   [class]="scrolled || menuOpen
     ? 'border-zinc-200/80 bg-white/80 backdrop-blur-md dark:border-zinc-800/80 dark:bg-zinc-950/80'
     : 'border-transparent'">
   <nav class="container-page flex h-16 items-center justify-between gap-4" aria-label="Main">
-    <a href="#top" class="flex items-center gap-2.5 rounded-lg font-semibold tracking-tight" (click)="menuOpen = false">
+    <a href="#top" class="flex items-center gap-2.5 rounded-lg font-semibold tracking-tight" (click)="closeMenu()">
       <span class="grid h-8 w-8 place-items-center rounded-lg bg-brand-700 font-mono text-xs font-bold text-white dark:bg-brand-400 dark:text-zinc-950">EB</span>
       <span class="text-sm">Eduard Broasca</span>
     </a>
@@ -34,7 +34,7 @@
         <app-icon [name]="isDark ? 'sun' : 'moon'" class="h-[18px] w-[18px]" />
       </button>
 
-      <button type="button" class="icon-btn md:hidden" (click)="menuOpen = !menuOpen"
+      <button type="button" class="icon-btn md:hidden" (click)="toggleMenu()"
         [attr.aria-expanded]="menuOpen" aria-controls="mobile-menu"
         [attr.aria-label]="menuOpen ? 'Close menu' : 'Open menu'">
         <app-icon [name]="menuOpen ? 'x' : 'menu'" class="h-5 w-5" />
@@ -43,11 +43,13 @@
   </nav>
 
   @if (menuOpen) {
-    <div id="mobile-menu" class="border-t border-zinc-200/80 md:hidden dark:border-zinc-800/80">
+    <!-- Overlays the page rather than pushing it down, so closing it doesn't shift the section being scrolled to. -->
+    <div id="mobile-menu"
+      class="absolute inset-x-0 top-full border-b border-zinc-200 bg-white shadow-lg shadow-zinc-900/5 md:hidden dark:border-zinc-800 dark:bg-zinc-950 dark:shadow-black/40">
       <ul class="container-page flex flex-col gap-1 py-4">
         @for (link of links; track link.id) {
           <li>
-            <a [href]="'#' + link.id" (click)="menuOpen = false"
+            <a [href]="'#' + link.id" (click)="closeMenu()"
               class="block rounded-lg px-3 py-2.5 text-base font-medium text-zinc-700 hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-800">
               {{ link.label }}
             </a>
