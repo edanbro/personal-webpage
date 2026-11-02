@@ -1,49 +1,65 @@
-<header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-  <div class="container mx-auto px-4 py-4 flex items-center justify-between">
-    <a routerLink="/" class="flex items-center space-x-3">
-      <div class="w-10 h-10 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
-        <img src="assets/profile.jpg" alt="Eduard Andrei Broasca" class="w-full h-full object-cover">
-        <span class="sr-only">EB</span>
-      </div>
-      <div>
-        <div class="font-semibold">Eduard Andrei Broasca</div>
-        <div class="text-xs text-gray-500 dark:text-gray-400">Entry Level Fullstack Developer</div>
-      </div>
+<header class="border-b transition-colors duration-300"
+  [class]="scrolled || menuOpen
+    ? 'border-zinc-200/80 bg-white/80 backdrop-blur-md dark:border-zinc-800/80 dark:bg-zinc-950/80'
+    : 'border-transparent'">
+  <nav class="container-page flex h-16 items-center justify-between gap-4" aria-label="Main">
+    <a href="#top" class="flex items-center gap-2.5 rounded-lg font-semibold tracking-tight" (click)="menuOpen = false">
+      <span class="grid h-8 w-8 place-items-center rounded-lg bg-brand-700 font-mono text-xs font-bold text-white dark:bg-brand-400 dark:text-zinc-950">EB</span>
+      <span class="text-sm">Eduard Broasca</span>
     </a>
 
-    <nav class="hidden md:flex items-center space-x-6">
-      <!-- changed: add exact matching so only the root path highlights Home -->
-      <a routerLink="/" routerLinkActive="text-indigo-600" [routerLinkActiveOptions]="{ exact: true }" class="hover:text-indigo-600">Home</a>
-      <a routerLink="/about" routerLinkActive="text-indigo-600" class="hover:text-indigo-600">About</a>
-      <a routerLink="/experience" routerLinkActive="text-indigo-600" class="hover:text-indigo-600">Experience</a>
-      <a routerLink="/projects" routerLinkActive="text-indigo-600" class="hover:text-indigo-600">Projects</a>
-      <a routerLink="/contact" routerLinkActive="text-indigo-600" class="hover:text-indigo-600">Contact</a>
-  <a href="assets/Eduard_Broasca_CV.pdf" target="_blank" class="px-3 py-1 border rounded text-sm">Resume</a>
-    </nav>
+    <ul class="hidden items-center gap-1 md:flex">
+      @for (link of links; track link.id) {
+        <li>
+          <a [href]="'#' + link.id"
+            [attr.aria-current]="activeSection === link.id ? 'true' : null"
+            class="rounded-md px-3 py-2 text-sm transition-colors"
+            [class]="activeSection === link.id
+              ? 'text-zinc-900 dark:text-white'
+              : 'text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white'">
+            {{ link.label }}
+          </a>
+        </li>
+      }
+    </ul>
 
-    <!-- small screen controls -->
-    <div class="flex items-center space-x-3">
-      <button (click)="toggleTheme()" aria-label="Toggle theme" class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-        <svg *ngIf="!isDark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364l-1.414 1.414M7.05 16.95l-1.414 1.414M18.364 18.364l-1.414-1.414M7.05 7.05L5.636 5.636" /></svg>
-        <svg *ngIf="isDark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M17.293 13.293A8 8 0 016.707 2.707a8 8 0 1010.586 10.586z"/></svg>
+    <div class="flex items-center gap-1.5">
+      <a [href]="cv" target="_blank" rel="noopener" class="btn-secondary hidden !py-1.5 sm:inline-flex">
+        CV
+        <app-icon name="arrow-up-right" class="h-3.5 w-3.5" />
+      </a>
+
+      <button type="button" class="icon-btn" (click)="toggleTheme()"
+        [attr.aria-label]="isDark ? 'Switch to light theme' : 'Switch to dark theme'">
+        <app-icon [name]="isDark ? 'sun' : 'moon'" class="h-[18px] w-[18px]" />
       </button>
 
-      <button (click)="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700" aria-label="Open menu">
-        <svg *ngIf="!mobileMenuOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        <svg *ngIf="mobileMenuOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+      <button type="button" class="icon-btn md:hidden" (click)="menuOpen = !menuOpen"
+        [attr.aria-expanded]="menuOpen" aria-controls="mobile-menu"
+        [attr.aria-label]="menuOpen ? 'Close menu' : 'Open menu'">
+        <app-icon [name]="menuOpen ? 'x' : 'menu'" class="h-5 w-5" />
       </button>
     </div>
-  </div>
+  </nav>
 
-  <!-- mobile menu -->
-  <div *ngIf="mobileMenuOpen" class="md:hidden border-t border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800">
-    <div class="px-4 py-3 space-y-2">
-      <a routerLink="/" (click)="mobileMenuOpen = false" class="block">Home</a>
-      <a routerLink="/about" (click)="mobileMenuOpen = false" class="block">About</a>
-      <a routerLink="/experience" (click)="mobileMenuOpen = false" class="block">Experience</a>
-      <a routerLink="/projects" (click)="mobileMenuOpen = false" class="block">Projects</a>
-      <a routerLink="/contact" (click)="mobileMenuOpen = false" class="block">Contact</a>
-  <a href="assets/Eduard_Broasca_CV.pdf" target="_blank" class="block">Resume</a>
+  @if (menuOpen) {
+    <div id="mobile-menu" class="border-t border-zinc-200/80 md:hidden dark:border-zinc-800/80">
+      <ul class="container-page flex flex-col gap-1 py-4">
+        @for (link of links; track link.id) {
+          <li>
+            <a [href]="'#' + link.id" (click)="menuOpen = false"
+              class="block rounded-lg px-3 py-2.5 text-base font-medium text-zinc-700 hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-800">
+              {{ link.label }}
+            </a>
+          </li>
+        }
+        <li class="mt-2 px-3">
+          <a [href]="cv" target="_blank" rel="noopener" class="btn-secondary w-full">
+            View CV
+            <app-icon name="arrow-up-right" class="h-4 w-4" />
+          </a>
+        </li>
+      </ul>
     </div>
-  </div>
+  }
 </header>

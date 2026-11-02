@@ -1,15 +1,16 @@
-import { Routes } from '@angular/router';
+import { inject } from '@angular/core';
+import { Route, Router, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
-import { AboutComponent } from './pages/about/about.component';
-import { ExperienceComponent } from './pages/experience/experience.component';
-import { ProjectsComponent } from './pages/projects/projects.component';
-import { ContactComponent } from './pages/contact/contact.component';
+
+// The site used to have a separate page per section. Keep those URLs working
+// by sending them to the matching section of the single page.
+const legacySectionRoutes: Route[] = ['about', 'experience', 'projects', 'contact'].map(section => ({
+	path: section,
+	redirectTo: () => inject(Router).createUrlTree([''], { fragment: section }),
+}));
 
 export const routes: Routes = [
 	{ path: '', component: HomeComponent },
-	{ path: 'about', component: AboutComponent },
-	{ path: 'experience', component: ExperienceComponent },
-	{ path: 'projects', component: ProjectsComponent },
-	{ path: 'contact', component: ContactComponent },
+	...legacySectionRoutes,
 	{ path: '**', redirectTo: '' }
 ];

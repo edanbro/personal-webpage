@@ -1,0 +1,65 @@
+<section id="experience" class="section section-band">
+  <div class="container-page">
+    <app-section-heading eyebrow="Experience" title="Where I've worked" />
+
+    <ol class="mt-12 space-y-12 border-l border-zinc-200 dark:border-zinc-800">
+      @for (job of experience; track job.company) {
+        <li class="relative pl-8 sm:pl-10">
+          <span class="absolute -left-[5px] top-2 h-2.5 w-2.5 rounded-full ring-4 ring-zinc-50 dark:ring-zinc-950"
+            [class]="job.current ? 'bg-brand-500' : 'bg-zinc-300 dark:bg-zinc-600'" aria-hidden="true"></span>
+
+          <div class="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+            <h3 class="text-lg font-semibold tracking-tight text-zinc-900 dark:text-white">
+              {{ job.role }}
+              <span class="font-normal text-zinc-500 dark:text-zinc-400">· {{ job.company }}</span>
+            </h3>
+            <p class="shrink-0 font-mono text-xs text-zinc-500 dark:text-zinc-400">
+              {{ job.start }} – {{ job.end }}
+              @if (job.current) {
+                <span class="ml-2 rounded-full bg-brand-50 px-2 py-0.5 font-sans font-medium text-brand-800 ring-1 ring-inset ring-brand-600/20 dark:bg-brand-400/10 dark:text-brand-300 dark:ring-brand-400/20">Current</span>
+              }
+            </p>
+          </div>
+          <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">{{ job.location }}</p>
+
+          <ul class="mt-4 list-disc space-y-2 pl-5 leading-relaxed text-zinc-600 marker:text-zinc-400 dark:text-zinc-300 dark:marker:text-zinc-600">
+            @for (bullet of job.bullets; track bullet) {
+              <li>{{ bullet }}</li>
+            }
+          </ul>
+
+          <ul class="mt-5 flex flex-wrap gap-2" aria-label="Technologies">
+            @for (tech of job.tech; track tech) {
+              <li class="chip">{{ tech }}</li>
+            }
+          </ul>
+        </li>
+      }
+    </ol>
+
+    <div class="mt-16 grid gap-4 md:grid-cols-2">
+      <div class="card p-6">
+        <p class="flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-zinc-500">
+          <app-icon name="graduation-cap" class="h-4 w-4" />
+          Education
+        </p>
+        <h3 class="mt-4 font-semibold tracking-tight text-zinc-900 dark:text-white">{{ education.degree }}</h3>
+        <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-300">{{ education.school }} · {{ education.location }}</p>
+        <p class="mt-1 font-mono text-xs text-zinc-500 dark:text-zinc-400">{{ education.start }} – {{ education.end }} · {{ education.grade }}</p>
+        <p class="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">{{ education.note }}</p>
+      </div>
+
+      @for (cert of certifications; track cert.code) {
+        <div class="card p-6">
+          <p class="flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-zinc-500">
+            <app-icon name="award" class="h-4 w-4" />
+            Certification
+          </p>
+          <h3 class="mt-4 font-semibold tracking-tight text-zinc-900 dark:text-white">{{ cert.name }}</h3>
+          <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-300">{{ cert.issuer }} · {{ cert.code }}</p>
+          <p class="mt-1 font-mono text-xs text-zinc-500 dark:text-zinc-400">Earned {{ cert.date }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,20 @@
+<section id="skills" class="section section-band">
+  <div class="container-page">
+    <app-section-heading eyebrow="Skills" title="What I work with" />
+
+    <dl class="mt-12 divide-y divide-zinc-200 border-y border-zinc-200 dark:divide-zinc-800 dark:border-zinc-800">
+      @for (group of skillGroups; track group.name) {
+        <div class="grid gap-3 py-6 sm:grid-cols-[13rem_1fr] sm:gap-8">
+          <dt class="text-sm font-medium text-zinc-900 sm:pt-1 dark:text-white">{{ group.name }}</dt>
+          <dd>
+            <ul class="flex flex-wrap gap-2">
+              @for (item of group.items; track item) {
+                <li class="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200">{{ item }}</li>
+              }
+            </ul>
+          </dd>
+        </div>
+      }
+    </dl>
+  </div>
+</section>

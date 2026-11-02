@@ -1,10 +1,23 @@
-<footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
-  <div class="container mx-auto px-4 py-6 text-sm text-gray-600 dark:text-gray-400 flex items-center justify-between">
-    <div>© {{ year }} Eduard Andrei Broasca</div>
-    <div>
-      <a href="https://github.com/edanbro" target="_blank" class="hover:underline mr-4">GitHub</a>
-      <a href="https://linkedin.com/in/eduard-broasca-b97926249" target="_blank" class="hover:underline mr-4">LinkedIn</a>
-  <a href="mailto:eduard.andrei.broasca&#64;gmail.com" class="hover:underline">Email</a>
+<footer class="border-t border-zinc-200 dark:border-zinc-800">
+  <div class="container-page flex flex-col gap-6 py-10 sm:flex-row sm:items-center sm:justify-between">
+    <div class="text-sm">
+      <p class="font-medium text-zinc-900 dark:text-white">© {{ year }} {{ profile.name }}</p>
+      <p class="mt-1 text-zinc-500 dark:text-zinc-400">
+        Built with Angular and Tailwind CSS ·
+        <a [href]="profile.source" target="_blank" rel="noopener" class="underline decoration-zinc-300 underline-offset-4 hover:text-zinc-900 dark:decoration-zinc-600 dark:hover:text-white">View source</a>
+      </p>
+    </div>
+
+    <div class="-ml-2 flex items-center gap-1 sm:ml-0">
+      <a [href]="profile.github" target="_blank" rel="noopener" class="icon-btn" aria-label="GitHub">
+        <app-icon name="github" class="h-[18px] w-[18px]" />
+      </a>
+      <a [href]="profile.linkedin" target="_blank" rel="noopener" class="icon-btn" aria-label="LinkedIn">
+        <app-icon name="linkedin" class="h-[18px] w-[18px]" />
+      </a>
+      <a [href]="'mailto:' + profile.email" class="icon-btn" aria-label="Email">
+        <app-icon name="mail" class="h-[18px] w-[18px]" />
+      </a>
     </div>
   </div>
 </footer>

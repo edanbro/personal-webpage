@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { IconComponent } from '../icon/icon.component';
+import { profile } from '../../data/profile';
 
 @Component({
   selector: 'app-footer',
-  standalone: true,
-  imports: [CommonModule],
+  imports: [IconComponent],
   templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent {
-  year = new Date().getFullYear();
+  readonly profile = profile;
+  readonly year = new Date().getFullYear();
 }

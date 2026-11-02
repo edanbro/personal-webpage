@@ -5,10 +5,30 @@
   <title>Eduard A. Broasca</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="assets/profile.jpg">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/profile.jpg">
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/profile.jpg">
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/profile.jpg">
+  <meta name="description" content="Eduard Andrei Broasca, full-stack software engineer in Dublin. Associate Consultant at Version 1, working with Angular, Java, Spring Boot and Python.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Eduard Andrei Broasca · Software Engineer">
+  <meta property="og:description" content="Full-stack software engineer in Dublin. Associate Consultant at Version 1.">
+  <meta property="og:url" content="https://edanbro.github.io/personal-webpage/">
+  <meta property="og:image" content="https://edanbro.github.io/personal-webpage/assets/portrait.jpg">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@400..600&display=swap" rel="stylesheet">
+
+  <!-- Apply the saved or system theme before first paint so dark mode doesn't flash. -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme');
+        var dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (dark) document.documentElement.classList.add('dark');
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
   <app-root></app-root>
